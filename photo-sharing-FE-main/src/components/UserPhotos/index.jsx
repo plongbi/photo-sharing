@@ -10,11 +10,7 @@ import {
   TextField,
 } from "@material-ui/core";
 
-import {
-  useParams,
-  useNavigate,
-  Link,
-} from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 import axios from "axios";
 import fetchModel from "../../lib/fetchModelData";
@@ -52,13 +48,13 @@ function UserPhotos({ advancedFeatures }) {
 
     try {
       await axios.post(
-        `http://localhost:8081/commentsOfPhoto/${photoId}`,
+        `https://jsd7fz-8081.csb.app/commentsOfPhoto/${photoId}`, // Đổi từ localhost thành domain CodeSandbox
         { comment },
-        { withCredentials: true }
+        { withCredentials: true } // Bắt buộc giữ lại để truyền cookie phiên làm việc (Session) qua giao thức HTTPS CORS
       );
 
       setComment("");
-      fetchPhotos();
+      fetchPhotos(); // Tải lại danh sách ảnh để cập nhật comment mới lập tức
     } catch {
       alert("Add comment failed");
     }
@@ -71,7 +67,7 @@ function UserPhotos({ advancedFeatures }) {
     <Card key={photo._id} style={{ marginBottom: 30 }}>
       <CardMedia
         component="img"
-        image={`http://localhost:8081/images/${photo.file_name}`}
+        image={`https://jsd7fz-8081.csb.app/images/${photo.file_name}`} // Đổi từ localhost thành domain CodeSandbox để sửa lỗi 404 hiển thị ảnh
         alt="photo"
         style={{ maxHeight: 500, objectFit: "contain" }}
       />

@@ -20,20 +20,20 @@ export default function LoginRegister({ setCurrentUser }) {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        'http://localhost:8081/admin/login',
+        'https://jsd7fz-8081.csb.app/admin/login', // Thay đổi localhost thành URL CodeSandbox của bạn
         {
           login_name,
           password
         },
         {
-          withCredentials: true
+          withCredentials: true // Giữ cookie session khi gửi request CORS chéo domain
         }
       );
 
       setCurrentUser(res.data);
       localStorage.setItem("currentUser", JSON.stringify(res.data));
     } catch (err) {
-      alert('Login failed');
+      alert('Login failed: ' + (err.response?.data?.message || 'Unknown error'));
     }
   };
 
@@ -44,7 +44,10 @@ export default function LoginRegister({ setCurrentUser }) {
     }
 
     try {
-      await axios.post('http://localhost:8081/user', registerData);
+      await axios.post(
+        'https://jsd7fz-8081.csb.app/user', // Thay đổi localhost thành URL CodeSandbox của bạn
+        registerData
+      );
 
       alert('Register success');
     } catch (err) {
@@ -61,7 +64,6 @@ export default function LoginRegister({ setCurrentUser }) {
         </h1>
 
         {/* LOGIN */}
-
         <div className="form-section">
           <h2>Login</h2>
 
@@ -90,7 +92,6 @@ export default function LoginRegister({ setCurrentUser }) {
         </div>
 
         {/* REGISTER */}
-
         <div className="form-section">
           <h2>Register</h2>
 

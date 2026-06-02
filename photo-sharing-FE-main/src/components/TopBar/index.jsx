@@ -26,7 +26,7 @@ function TopBar({
   let contextText = "Welcome to Photo App";
 
   /* =========================
-     CONTEXT TEXT
+      CONTEXT TEXT
   ========================= */
 
   if (path.startsWith("/users/")) {
@@ -36,16 +36,16 @@ function TopBar({
   }
 
   /* =========================
-     LOGOUT
+      LOGOUT
   ========================= */
 
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:8081/admin/logout",
+        "https://jsd7fz-8081.csb.app/admin/logout", // Đổi từ localhost sang domain CodeSandbox
         {},
         {
-          withCredentials: true,
+          withCredentials: true, // Giữ cookie session để server xóa session
         }
       );
 
@@ -57,7 +57,7 @@ function TopBar({
   };
 
   /* =========================
-     UPLOAD PHOTO
+      UPLOAD PHOTO
   ========================= */
 
   const handleUpload = async (e) => {
@@ -66,32 +66,26 @@ function TopBar({
     try {
       const formData = new FormData();
 
-      formData.append(
-        "photo",
-        e.target.files[0]
-      );
+      formData.append("photo", e.target.files[0]);
 
       await axios.post(
-        "http://localhost:8081/photos/new",
+        "https://jsd7fz-8081.csb.app/photos/new", // Đổi từ localhost sang domain CodeSandbox
         formData,
         {
-          withCredentials: true,
+          withCredentials: true, // Gửi kèm session cookie để xác thực quyền upload ảnh của user hiện tại
         }
       );
 
       alert("Upload success");
 
-      window.location.reload();
+      window.location.reload(); // Tải lại trang để cập nhật giao diện ảnh mới ngay lập tức
     } catch (err) {
       alert(err.response?.data?.message || "Upload failed: " + err.message);
     }
   };
 
   return (
-    <AppBar
-      position="static"
-      className="topbar-appBar"
-    >
+    <AppBar position="static" className="topbar-appBar">
       <Toolbar
         style={{
           display: "flex",
@@ -101,9 +95,7 @@ function TopBar({
       >
         {/* LEFT */}
 
-        <Typography variant="h6">
-          Phạm Hải Long - B23DCVT258
-        </Typography>
+        <Typography variant="h6">Phạm Hải Long - B23DCVT258</Typography>
 
         {/* CENTER */}
 
@@ -111,11 +103,7 @@ function TopBar({
           control={
             <Checkbox
               checked={advancedFeatures}
-              onChange={(e) =>
-                setAdvancedFeatures(
-                  e.target.checked
-                )
-              }
+              onChange={(e) => setAdvancedFeatures(e.target.checked)}
               style={{ color: "white" }}
             />
           }
@@ -134,15 +122,13 @@ function TopBar({
           {/* USER */}
 
           <Typography variant="h6">
-            Hi {currentUser.first_name}
+            Hi {currentUser?.first_name}{" "}
+            {/* Thêm dấu ? đề phòng lỗi crash nếu currentUser tạm thời bị null khi out session */}
           </Typography>
 
           {/* CONTEXT */}
 
-          <Typography variant="h6">
-            {contextText}
-          </Typography>
-
+          <Typography variant="h6">{contextText}</Typography>
 
           {/* UPLOAD */}
           <input
@@ -154,18 +140,16 @@ function TopBar({
           <Button
             variant="contained"
             color="primary"
-            onClick={() => document.getElementById('upload-photo-input').click()}
+            onClick={() =>
+              document.getElementById("upload-photo-input").click()
+            }
           >
             Add photo
           </Button>
 
           {/* LOGOUT */}
 
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleLogout}
-          >
+          <Button variant="contained" color="secondary" onClick={handleLogout}>
             Logout
           </Button>
         </div>
