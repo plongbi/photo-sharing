@@ -1,6 +1,7 @@
 import "./styles.css";
 import { useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../../lib/fetchModelData";
 
 export default function LoginRegister({ setCurrentUser }) {
   const [login_name, setLoginName] = useState("");
@@ -20,13 +21,13 @@ export default function LoginRegister({ setCurrentUser }) {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "https://tv8lqy-8081.csb.app/admin/login", // Thay đổi localhost thành URL CodeSandbox của bạn
+        `${BASE_URL}/admin/login`,
         {
           login_name,
           password,
         },
         {
-          withCredentials: true, // Giữ cookie session khi gửi request CORS chéo domain
+          withCredentials: true,
         }
       );
 
@@ -46,10 +47,7 @@ export default function LoginRegister({ setCurrentUser }) {
     }
 
     try {
-      await axios.post(
-        "https://tv8lqy-8081.csb.app/user", // Thay đổi localhost thành URL CodeSandbox của bạn
-        registerData
-      );
+      await axios.post(`${BASE_URL}/user`, registerData);
 
       alert("Register success");
     } catch (err) {
@@ -62,7 +60,6 @@ export default function LoginRegister({ setCurrentUser }) {
       <div className="login-wrapper">
         <h1 className="login-title">Photo Sharing App</h1>
 
-        {/* LOGIN */}
         <div className="form-section">
           <h2>Login</h2>
 
@@ -84,7 +81,6 @@ export default function LoginRegister({ setCurrentUser }) {
           </div>
         </div>
 
-        {/* REGISTER */}
         <div className="form-section">
           <h2>Register</h2>
 
