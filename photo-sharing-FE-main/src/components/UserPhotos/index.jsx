@@ -48,7 +48,7 @@ function UserPhotos({ advancedFeatures }) {
 
     try {
       await axios.post(
-        `https://jsd7fz-8081.csb.app/commentsOfPhoto/${photoId}`, // Đổi từ localhost thành domain CodeSandbox
+        `https://tv8lqy-8081.csb.app/commentsOfPhoto/${photoId}`, // Đổi từ localhost thành domain CodeSandbox
         { comment },
         { withCredentials: true } // Bắt buộc giữ lại để truyền cookie phiên làm việc (Session) qua giao thức HTTPS CORS
       );
@@ -67,7 +67,7 @@ function UserPhotos({ advancedFeatures }) {
     <Card key={photo._id} style={{ marginBottom: 30 }}>
       <CardMedia
         component="img"
-        image={`https://jsd7fz-8081.csb.app/images/${photo.file_name}`} // Đổi từ localhost thành domain CodeSandbox để sửa lỗi 404 hiển thị ảnh
+        image={`https://tv8lqy-8081.csb.app/images/${photo.file_name}`} // Đổi từ localhost thành domain CodeSandbox để sửa lỗi 404 hiển thị ảnh
         alt="photo"
         style={{ maxHeight: 500, objectFit: "contain" }}
       />

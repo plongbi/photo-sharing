@@ -8,7 +8,7 @@ import axios from "axios";
 async function fetchModelData(url) {
   try {
     // Tự động nối domain CodeSandbox của bạn vào trước endpoint
-    const response = await axios.get(`https://jsd7fz-8081.csb.app${url}`, {
+    const response = await axios.get(`https://tv8lqy-8081.csb.app${url}`, {
       withCredentials: true, // Rất quan trọng: Giúp gửi Session Cookie đi kèm mọi request GET
     });
     return response.data;

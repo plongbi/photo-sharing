@@ -42,7 +42,7 @@ function TopBar({
   const handleLogout = async () => {
     try {
       await axios.post(
-        "https://jsd7fz-8081.csb.app/admin/logout", // Đổi từ localhost sang domain CodeSandbox
+        "https://tv8lqy-8081.csb.app/admin/logout", // Đổi từ localhost sang domain CodeSandbox
         {},
         {
           withCredentials: true, // Giữ cookie session để server xóa session
@@ -69,7 +69,7 @@ function TopBar({
       formData.append("photo", e.target.files[0]);
 
       await axios.post(
-        "https://jsd7fz-8081.csb.app/photos/new", // Đổi từ localhost sang domain CodeSandbox
+        "https://tv8lqy-8081.csb.app/photos/new", // Đổi từ localhost sang domain CodeSandbox
         formData,
         {
           withCredentials: true, // Gửi kèm session cookie để xác thực quyền upload ảnh của user hiện tại
