@@ -14,10 +14,7 @@ const App = () => {
 
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("currentUser")));
 
-  /* =========================
-     IF NOT LOGIN
-  ========================= */
-
+  // Not login
   if (!currentUser) {
     return (
       <Router>
@@ -27,10 +24,6 @@ const App = () => {
       </Router>
     );
   }
-
-  /* =========================
-     MAIN APP
-  ========================= */
 
   return (
     <Router>
@@ -49,21 +42,16 @@ const App = () => {
 
           <div className="main-topbar-buffer" />
 
-          {/* USER LIST */}
-
           <Grid item sm={3}>
             <Paper className="main-grid-item">
               <UserList />
             </Paper>
           </Grid>
 
-          {/* MAIN CONTENT */}
-
           <Grid item sm={9}>
             <Paper className="main-grid-item">
               <Routes>
                 {/* HOME */}
-
                 <Route
                   path="/"
                   element={
@@ -74,15 +62,12 @@ const App = () => {
                   }
                 />
 
-                {/* USER DETAIL */}
-
                 <Route
                   path="/users/:userId"
                   element={<UserDetail />}
                 />
 
                 {/* USER PHOTOS */}
-
                 <Route
                   path="/photos/:userId"
                   element={
@@ -94,8 +79,6 @@ const App = () => {
                   }
                 />
 
-                {/* DEEP LINK */}
-
                 <Route
                   path="/photos/:userId/:photoId"
                   element={
@@ -106,8 +89,6 @@ const App = () => {
                     />
                   }
                 />
-
-                {/* FALLBACK */}
 
                 <Route
                   path="*"
