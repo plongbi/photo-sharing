@@ -18,12 +18,12 @@ dbConnect();
 
 app.use(
   cors({
-    origin: true,
+    origin: "https://tv8lqy-3000.csb.app",
     credentials: true,
   })
 );
 
-app.options("*", cors());
+// app.options("*", cors());
 
 app.use(express.json());
 

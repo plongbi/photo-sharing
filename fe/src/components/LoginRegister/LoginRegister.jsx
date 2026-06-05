@@ -1,69 +1,65 @@
 import "./styles.css";
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
+import { BASE_URL } from "../../lib/fetchModelData";
 
 export default function LoginRegister({ setCurrentUser }) {
-  const [login_name, setLoginName] = useState('');
-  const [password, setPassword] = useState('');
+  const [login_name, setLoginName] = useState("");
+  const [password, setPassword] = useState("");
 
   const [registerData, setRegisterData] = useState({
-    login_name: '',
-    password: '',
-    confirmPassword: '',
-    first_name: '',
-    last_name: '',
-    location: '',
-    description: '',
-    occupation: ''
+    login_name: "",
+    password: "",
+    confirmPassword: "",
+    first_name: "",
+    last_name: "",
+    location: "",
+    description: "",
+    occupation: "",
   });
 
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        'https://jsd7fz-8081.csb.app/admin/login', // Thay đổi localhost thành URL CodeSandbox của bạn
+        `${BASE_URL}/admin/login`,
         {
           login_name,
-          password
+          password,
         },
         {
-          withCredentials: true // Giữ cookie session khi gửi request CORS chéo domain
+          withCredentials: true,
         }
       );
 
       setCurrentUser(res.data);
       localStorage.setItem("currentUser", JSON.stringify(res.data));
     } catch (err) {
-      alert('Login failed: ' + (err.response?.data?.message || 'Unknown error'));
+      alert(
+        "Login failed: " + (err.response?.data?.message || "Unknown error")
+      );
     }
   };
 
   const handleRegister = async () => {
     if (registerData.password !== registerData.confirmPassword) {
-      alert('Passwords do not match');
+      alert("Passwords do not match");
       return;
     }
 
     try {
-      await axios.post(
-        'https://jsd7fz-8081.csb.app/user', // Thay đổi localhost thành URL CodeSandbox của bạn
-        registerData
-      );
+      await axios.post(`${BASE_URL}/user`, registerData);
 
-      alert('Register success');
+      alert("Register success");
     } catch (err) {
-      alert(err.response?.data?.message || 'Register failed');
+      alert(err.response?.data?.message || "Register failed");
     }
   };
 
   return (
     <div className="login-container">
       <div className="login-wrapper">
+        <h1 className="login-title">Photo Sharing App</h1>
 
-        <h1 className="login-title">
-          Photo Sharing App
-        </h1>
-
-        {/* LOGIN */}
         <div className="form-section">
           <h2>Login</h2>
 
@@ -71,27 +67,20 @@ export default function LoginRegister({ setCurrentUser }) {
             <input
               placeholder="Login name"
               value={login_name}
-              onChange={(e) =>
-                setLoginName(e.target.value)
-              }
+              onChange={(e) => setLoginName(e.target.value)}
             />
 
             <input
               type="password"
               placeholder="Password"
               value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
+              onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button onClick={handleLogin}>
-              Login
-            </button>
+            <button onClick={handleLogin}>Login</button>
           </div>
         </div>
 
-        {/* REGISTER */}
         <div className="form-section">
           <h2>Register</h2>
 
@@ -99,11 +88,7 @@ export default function LoginRegister({ setCurrentUser }) {
             {Object.keys(registerData).map((key) => (
               <input
                 key={key}
-                type={
-                  key.includes("password")
-                    ? "password"
-                    : "text"
-                }
+                type={key.includes("password") ? "password" : "text"}
                 placeholder={key.replace("_", " ")}
                 value={registerData[key]}
                 onChange={(e) =>
@@ -115,12 +100,9 @@ export default function LoginRegister({ setCurrentUser }) {
               />
             ))}
 
-            <button onClick={handleRegister}>
-              Register
-            </button>
+            <button onClick={handleRegister}>Register</button>
           </div>
         </div>
-
       </div>
     </div>
   );

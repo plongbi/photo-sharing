@@ -1,19 +1,19 @@
 import axios from "axios";
 
-/**
- * fetchModelData - Thực hiện gọi API lấy dữ liệu mô hình từ Backend CodeSandbox
- * @param {string} url - Đường dẫn endpoint (Ví dụ: "/user/list")
- * @returns {Promise} - Trả về dữ liệu JSON từ server
- */
-async function fetchModelData(url) {
+export const BASE_URL = "https://tv8lqy-8081.csb.app";
+
+async function fetchModelData(url, method = "GET", data = null) {
   try {
-    // Tự động nối domain CodeSandbox của bạn vào trước endpoint
-    const response = await axios.get(`https://jsd7fz-8081.csb.app${url}`, {
-      withCredentials: true, // Rất quan trọng: Giúp gửi Session Cookie đi kèm mọi request GET
+    const response = await axios({
+      url: `${BASE_URL}${url}`,
+      method,
+      data,
+      withCredentials: true,
     });
+
     return response.data;
   } catch (error) {
-    console.error("Fetch model data failed:", error);
+    console.error("API Error:", error);
     throw error;
   }
 }

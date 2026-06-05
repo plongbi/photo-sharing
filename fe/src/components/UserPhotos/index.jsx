@@ -13,7 +13,7 @@ import {
 import { useParams, useNavigate, Link } from "react-router-dom";
 
 import axios from "axios";
-import fetchModel from "../../lib/fetchModelData";
+import fetchModel, { BASE_URL } from "../../lib/fetchModelData";
 
 function UserPhotos({ advancedFeatures }) {
   const { userId, photoId } = useParams();
@@ -41,35 +41,47 @@ function UserPhotos({ advancedFeatures }) {
         replace: true,
       });
     }
-  }, [advancedFeatures, photos, photoId]);
+  }, [advancedFeatures, photos, photoId, navigate, userId]);
 
   const handleComment = async (photoId) => {
-    if (!comment.trim()) return alert("Comment cannot be empty");
+    if (!comment.trim()) {
+      return alert("Comment cannot be empty");
+    }
 
     try {
       await axios.post(
-        `https://jsd7fz-8081.csb.app/commentsOfPhoto/${photoId}`, // Đổi từ localhost thành domain CodeSandbox
+        `${BASE_URL}/commentsOfPhoto/${photoId}`,
         { comment },
-        { withCredentials: true } // Bắt buộc giữ lại để truyền cookie phiên làm việc (Session) qua giao thức HTTPS CORS
+        {
+          withCredentials: true,
+        }
       );
 
       setComment("");
-      fetchPhotos(); // Tải lại danh sách ảnh để cập nhật comment mới lập tức
+      fetchPhotos();
     } catch {
       alert("Add comment failed");
     }
   };
 
-  if (photos === null) return <Typography>Loading...</Typography>;
-  if (photos.length === 0) return <Typography>No photos.</Typography>;
+  if (photos === null) {
+    return <Typography>Loading...</Typography>;
+  }
+
+  if (photos.length === 0) {
+    return <Typography>No photos.</Typography>;
+  }
 
   const renderPhoto = (photo) => (
     <Card key={photo._id} style={{ marginBottom: 30 }}>
       <CardMedia
         component="img"
-        image={`https://jsd7fz-8081.csb.app/images/${photo.file_name}`} // Đổi từ localhost thành domain CodeSandbox để sửa lỗi 404 hiển thị ảnh
+        image={`${BASE_URL}/images/${photo.file_name}`}
         alt="photo"
-        style={{ maxHeight: 500, objectFit: "contain" }}
+        style={{
+          maxHeight: 500,
+          objectFit: "contain",
+        }}
       />
 
       <CardContent>
@@ -130,7 +142,10 @@ function UserPhotos({ advancedFeatures }) {
 
   if (advancedFeatures) {
     let currentIndex = photos.findIndex((p) => p._id === photoId);
-    if (currentIndex === -1) currentIndex = 0;
+
+    if (currentIndex === -1) {
+      currentIndex = 0;
+    }
 
     const currentPhoto = photos[currentIndex];
 
