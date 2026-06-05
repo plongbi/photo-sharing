@@ -7,21 +7,18 @@ import {
   Divider,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-// Import hàm fetchModel bạn vừa tạo
 import fetchModel from "../../lib/fetchModelData";
 
 function UserList() {
-  // Tạo state để lưu danh sách người dùng
   const [users, setUsers] = useState([]);
 
-  // Dùng useEffect để gọi API ngay khi component được render
   useEffect(() => {
     fetchModel("/user/list")
       .then((data) => {
-        setUsers(data); // Lưu dữ liệu từ backend vào state
+        setUsers(data); 
       })
       .catch((err) => console.error("Lỗi khi lấy danh sách user:", err));
-  }, []); // Mảng rỗng [] nghĩa là chỉ gọi 1 lần khi load trang
+  }, []); 
 
   return (
     <div>
