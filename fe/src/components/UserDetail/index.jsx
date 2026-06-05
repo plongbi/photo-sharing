@@ -14,9 +14,8 @@ function UserDetail() {
         setUser(data);
       })
       .catch((err) => console.error("Lỗi khi lấy chi tiết user:", err));
-  }, [userId]); // Chạy lại nếu userId trên URL thay đổi
+  }, [userId]); 
 
-  // Hiển thị chữ Loading trong lúc chờ API trả dữ liệu
   if (!user) return <Typography>Loading...</Typography>;
 
   return (
