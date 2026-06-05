@@ -18,7 +18,7 @@ dbConnect();
 
 app.use(
   cors({
-    origin: "https://tv8lqy-3000.csb.app",
+    origin: true,
     credentials: true,
   })
 );

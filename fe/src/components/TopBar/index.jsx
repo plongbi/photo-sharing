@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 
 import { useLocation } from "react-router-dom";
-
+import { BASE_URL } from "../../lib/fetchModelData";
 import axios from "axios";
 
 function TopBar({
@@ -42,10 +42,10 @@ function TopBar({
   const handleLogout = async () => {
     try {
       await axios.post(
-        "https://tv8lqy-8081.csb.app/admin/logout", // Đổi từ localhost sang domain CodeSandbox
+        `${BASE_URL}/admin/logout`,
         {},
         {
-          withCredentials: true, // Giữ cookie session để server xóa session
+          withCredentials: true,
         }
       );
 
@@ -68,13 +68,9 @@ function TopBar({
 
       formData.append("photo", e.target.files[0]);
 
-      await axios.post(
-        "https://tv8lqy-8081.csb.app/photos/new", // Đổi từ localhost sang domain CodeSandbox
-        formData,
-        {
-          withCredentials: true, // Gửi kèm session cookie để xác thực quyền upload ảnh của user hiện tại
-        }
-      );
+      await axios.post(`${BASE_URL}/photos/new`, formData, {
+        withCredentials: true,
+      });
 
       alert("Upload success");
 
