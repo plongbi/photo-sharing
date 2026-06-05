@@ -12,10 +12,6 @@ const Photo = require("./db/photoModel");
 
 dbConnect();
 
-/* =========================
-   CORS
-========================= */
-
 app.use(
   cors({
     origin: "https://tv8lqy-3000.csb.app",
@@ -26,10 +22,6 @@ app.use(
 // app.options("*", cors());
 
 app.use(express.json());
-
-/* =========================
-   SESSION
-========================= */
 
 app.set("trust proxy", 1);
 
@@ -48,15 +40,8 @@ app.use(
   })
 );
 
-/* =========================
-   STATIC IMAGES
-========================= */
 
 app.use("/images", express.static(path.join(__dirname, "images")));
-
-/* =========================
-   MULTER
-========================= */
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -71,19 +56,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-/* =========================
-   ROOT
-========================= */
-
 app.get("/", (req, res) => {
   res.json({
     message: "Photo Sharing API Running",
   });
 });
-
-/* =========================
-   TEST SESSION
-========================= */
 
 app.get("/test-session", (req, res) => {
   res.json({
@@ -91,10 +68,7 @@ app.get("/test-session", (req, res) => {
   });
 });
 
-/* =========================
-   USER LIST
-========================= */
-
+// User
 app.get("/user/list", async (req, res) => {
   try {
     const users = await User.find({}, "_id first_name last_name");
@@ -106,10 +80,6 @@ app.get("/user/list", async (req, res) => {
     });
   }
 });
-
-/* =========================
-   USER DETAIL
-========================= */
 
 app.get("/user/:id", async (req, res) => {
   try {
@@ -131,10 +101,6 @@ app.get("/user/:id", async (req, res) => {
     });
   }
 });
-
-/* =========================
-   USER PHOTOS
-========================= */
 
 app.get("/photosOfUser/:id", async (req, res) => {
   try {
@@ -163,10 +129,7 @@ app.get("/photosOfUser/:id", async (req, res) => {
   }
 });
 
-/* =========================
-   REGISTER
-========================= */
-
+// Register
 app.post("/user", async (req, res) => {
   try {
     const existingUser = await User.findOne({
@@ -194,10 +157,7 @@ app.post("/user", async (req, res) => {
   }
 });
 
-/* =========================
-   LOGIN
-========================= */
-
+// Login
 app.post("/admin/login", async (req, res) => {
   try {
     const { login_name, password } = req.body;
@@ -235,10 +195,7 @@ app.post("/admin/login", async (req, res) => {
   }
 });
 
-/* =========================
-   LOGOUT
-========================= */
-
+// Logout
 app.post("/admin/logout", (req, res) => {
   req.session.destroy(() => {
     res.clearCookie("connect.sid");
@@ -248,10 +205,7 @@ app.post("/admin/logout", (req, res) => {
   });
 });
 
-/* =========================
-   ADD COMMENT
-========================= */
-
+// Add comment
 app.post("/commentsOfPhoto/:photo_id", async (req, res) => {
   if (!req.session.user_id) {
     return res.status(401).json({
@@ -286,10 +240,7 @@ app.post("/commentsOfPhoto/:photo_id", async (req, res) => {
   }
 });
 
-/* =========================
-   UPLOAD PHOTO
-========================= */
-
+// Upload photo
 app.post("/photos/new", upload.single("photo"), async (req, res) => {
   if (!req.session.user_id) {
     return res.status(401).json({
@@ -316,10 +267,6 @@ app.post("/photos/new", upload.single("photo"), async (req, res) => {
     });
   }
 });
-
-/* =========================
-   START
-========================= */
 
 app.listen(8081, () => {
   console.log("Server running on port 8081");
