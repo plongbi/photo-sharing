@@ -25,20 +25,13 @@ function TopBar({
 
   let contextText = "Welcome to Photo App";
 
-  /* =========================
-      CONTEXT TEXT
-  ========================= */
-
   if (path.startsWith("/users/")) {
     contextText = "User Detail";
   } else if (path.startsWith("/photos/")) {
     contextText = "User Photos";
   }
 
-  /* =========================
-      LOGOUT
-  ========================= */
-
+  // Logout
   const handleLogout = async () => {
     try {
       await axios.post(
@@ -56,10 +49,7 @@ function TopBar({
     }
   };
 
-  /* =========================
-      UPLOAD PHOTO
-  ========================= */
-
+  // Upload photo
   const handleUpload = async (e) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
@@ -90,11 +80,9 @@ function TopBar({
         }}
       >
         {/* LEFT */}
-
         <Typography variant="h6">Phạm Hải Long - B23DCVT258</Typography>
 
         {/* CENTER */}
-
         <FormControlLabel
           control={
             <Checkbox
@@ -107,7 +95,6 @@ function TopBar({
         />
 
         {/* RIGHT */}
-
         <div
           style={{
             display: "flex",
@@ -116,13 +103,9 @@ function TopBar({
           }}
         >
           {/* USER */}
-
           <Typography variant="h6">
             Hi {currentUser?.first_name}{" "}
-            {/* Thêm dấu ? đề phòng lỗi crash nếu currentUser tạm thời bị null khi out session */}
           </Typography>
-
-          {/* CONTEXT */}
 
           <Typography variant="h6">{contextText}</Typography>
 
@@ -144,7 +127,6 @@ function TopBar({
           </Button>
 
           {/* LOGOUT */}
-
           <Button variant="contained" color="secondary" onClick={handleLogout}>
             Logout
           </Button>
